@@ -22,7 +22,8 @@ namespace RestFileManager_temp
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            if (app.Environment.IsProduction())
+                app.UseHttpsRedirection();
 
             app.UseAuthorization();
 
