@@ -1,4 +1,4 @@
-﻿namespace RestFileManager_temp.Models
+﻿namespace RestFileManager.Models
 {
     public class MultipartFile
     {

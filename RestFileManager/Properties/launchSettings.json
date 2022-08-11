@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "RestFileManager_temp": {
+    "RestFileManager": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,

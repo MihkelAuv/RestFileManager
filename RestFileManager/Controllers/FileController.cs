@@ -1,9 +1,8 @@
 ﻿using System.Text.Json;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RestFileManager_temp.Models;
+using RestFileManager.Models;
 
-namespace RestFileManager_temp.Controllers
+namespace RestFileManager.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -23,27 +22,14 @@ namespace RestFileManager_temp.Controllers
             }
             var file = filerequest.File;
             if (metadata is not null)
-            {
-                metadata.id = Guid.NewGuid().ToString();
-            }
+                metadata.ID = Guid.NewGuid().ToString();
             else
-            {
-                metadata = new Metadata
-                {
-                    id = Guid.NewGuid().ToString(),
-                    description = null,
-                    mimeType = file.ContentType,
-                    name = file.FileName
-                };
-            }
-
-
+                metadata = new Metadata(file.FileName, file.ContentType, string.Empty);
+            
             if (file.Length > 0)
             {
-                using (var fileStream = new FileStream(file.FileName, FileMode.Create))
-                {
-                    file.CopyTo(fileStream);
-                }
+                using var fileStream = new FileStream(file.FileName, FileMode.Create);
+                file.CopyTo(fileStream);
             }
 
             return Ok(JsonSerializer.Serialize(metadata));

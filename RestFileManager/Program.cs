@@ -1,4 +1,4 @@
-namespace RestFileManager_temp
+namespace RestFileManager
 {
     public class Program
     {
