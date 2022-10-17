@@ -1,3 +1,8 @@
+using System.Linq;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
 namespace RestFileManager
 {
     public class Program
@@ -26,7 +31,6 @@ namespace RestFileManager
                 app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

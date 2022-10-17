@@ -1,4 +1,7 @@
-﻿namespace RestFileManager.Models
+﻿using System;
+using System.Text.Json.Serialization;
+
+namespace RestFileManager.Models
 {
     public class Metadata
     {
@@ -10,12 +13,16 @@
             Description = description;
         }
 
-        public string ID { get; set; }
+        [JsonPropertyName("id")]
+        public string? ID { get; set; }
 
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
+        [JsonPropertyName("mimeType")]
         public string MimeType { get; set; }
 
+        [JsonPropertyName("description")]
         public string Description { get; set; }
     }
 }

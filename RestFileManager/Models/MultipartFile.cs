@@ -1,4 +1,6 @@
-﻿namespace RestFileManager.Models
+﻿using Microsoft.AspNetCore.Http;
+
+namespace RestFileManager.Models
 {
     public class MultipartFile
     {
