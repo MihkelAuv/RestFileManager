@@ -8,12 +8,15 @@ using RestFileManager.Services;
 
 namespace RestFileManager.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class FileController : ControllerBase
     {
-        [HttpPost("Upload1")]
-        public ActionResult Upload1([FromForm] MultipartFile filerequest)
+        [HttpPost("Upload")]
+        [MapToApiVersion("1.0")]
+        public ActionResult LegacyUpload([FromForm] MultipartFile filerequest)
         {
             Metadata? metadata = null;
             try
@@ -44,10 +47,14 @@ namespace RestFileManager.Controllers
             return Ok(JsonSerializer.Serialize(metadata));
         }
 
-        [HttpPost("Upload2")]
-        public IActionResult Upload2([ModelBinder(BinderType = typeof(MetadataModelProvider))] Metadata metadata, [Required] IFormFile file)
+        [HttpPost("Upload")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Produces("application/json")]
+        [MapToApiVersion("2.0")]
+        public ActionResult<Metadata> Upload([ModelBinder(BinderType = typeof(MetadataModelProvider))] Metadata metadata, [Required] IFormFile file)
         {
-            metadata.ID = Guid.NewGuid().ToString();
+            var newMetadata = new Metadata(metadata.Name, file.ContentType, metadata.Description);
 
             try
             {
@@ -59,7 +66,7 @@ namespace RestFileManager.Controllers
                 return BadRequest(e.InnerException?.ToString());
             }
 
-            return Ok(JsonSerializer.Serialize(metadata));
+            return Ok(newMetadata);
         }
     }
 }
